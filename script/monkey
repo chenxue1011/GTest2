@@ -1,0 +1,22 @@
+#!/usr/bin/ksh
+adb -s 64308251 logcat -v time >/home/zhanghua/桌面/xiaomi/Monkey/monkeylogcat.txt &
+for i in {4..4}
+do
+   sleep 10s
+   echo "******Start to the "+$i+" seed******"
+   start=`date '+%Y-%m-%d %H:%M:%S'`
+   s1=$(date +%s)
+   echo "Start time: "$start | tee -a /home/zhanghua/桌面/xiaomi/Monkey/monkey_$i.txt
+   sleep 2s
+   adb -s 64308251 shell monkey -p cn.com.mobnote.golukmobile -s $i -v -v -v --throttle 1000 --hprof --ignore-security-exceptions 20000 | tee -a /home/zhanghua/桌面/xiaomi/Monkey/monkey_$i.txt
+   sleep 2s
+   end=`date '+%Y-%m-%d %H:%M:%S'` 
+   echo "******End the "+i+" seed******"
+   echo "End time: "$end | tee -a /home/zhanghua/桌面/xiaomi/Monkey/monkey_$i.txt
+   s2=$(date +%s)   
+   runtime=$(($s2 - $s1))
+   n3=$(printf "%.5f" `echo "scale=5;$runtime/3600"|bc`)
+   echo "Runtime: "$n3 | tee -a /home/zhanghua/桌面/xiaomi/Monkey/monkey_$i.txt
+done
+sleep 3s
+#adb kill-server

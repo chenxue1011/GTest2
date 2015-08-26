@@ -1,0 +1,21 @@
+/Users/apple/Documents/GTest2/GTest2/bin/classes.dex : \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/common/Common.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/performance/Performance1.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/DownloadEmergencyVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/DownloadFavoriteVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/DownloadLoopVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/NewVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayEmergencyVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayFavoriteVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayLocalEmergencyVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayLocalFavoriteVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayLocalLoopVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PlayLoopVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/PreviewTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/RequestFavoriteVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/RequestLiveTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/ShareEmergencyVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/ShareFavoriteVideoTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/VideoHotTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/VideoSelectedTest.class \
+/Users/apple/Documents/GTest2/GTest2/bin/classes/com/goluk/testcases/VideoSquareTest.class \
