@@ -22,9 +22,14 @@ public class ShareFavoriteVideoTest extends UiAutomatorTestCase {
 			//点击分享
 			Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/image3");
 			//点击紧急视频
-			Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/mWonderfulText");
+			boolean IPCStatus=false;
+			IPCStatus=Common.waitForList(runcase, in,"cn.com.mobnote.golukmobile:id/loading_bg",30);
+			if(IPCStatus){
+				Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/mWonderfulText");
 
-			Common.selectVideoFilter(runcase, in);
+				Common.selectVideoFilter(runcase, in);
+			}
+			
 			
 			Common.backToHome(runcase,in);
 			Common.passcase(runcase);

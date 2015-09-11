@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.android.uiautomator.core.UiDevice;
+import com.android.uiautomator.core.UiObject;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
 import com.goluk.common.Common;
 
@@ -25,6 +26,13 @@ public class NewVideoTest extends UiAutomatorTestCase {
 			sleep(2);
 			Common.infoLog(runcase, "开始执行最新视频");
 			Common.playlatestVideo(runcase, in);
+			UiObject AppCrash = Common.findViewByText2(in, "Unfortunately");
+			UiObject ANR = Common.findViewByText2(in, "极路客 isn't responding.");
+			if (AppCrash.exists()) {
+				throw new Exception("AppCrash");
+			} else if (ANR.exists()) {
+				throw new Exception("ANR");
+			}
 			Common.backToHome(runcase,in);
 			Common.passcase(runcase);
 			Common.startLog(runcase,"*****End to run "+runcase+" *****");

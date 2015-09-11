@@ -28,7 +28,7 @@ public class RequestFavoriteVideoTest extends UiAutomatorTestCase {
 			sleep(2000);
 			int i=1;
 			UiObject waitingnote=Common.findViewById2(in, "cn.com.mobnote.golukmobile:id/mLoading");
-			while(i<16){
+			while(i<60){
 				if(waitingnote.exists()){
 					sleep(1000);
 					Common.infoLog(runcase,"Loading Preview"+i+"sec");
@@ -39,8 +39,8 @@ public class RequestFavoriteVideoTest extends UiAutomatorTestCase {
 					break;
 				}				
 			}
-			if(i==16){
-				throw new Exception("Loading more than 15s");
+			if(i==60){
+				throw new Exception("Loading more than 60s");
 			}
 			sleep(2000);
 			Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/m8sBtn");

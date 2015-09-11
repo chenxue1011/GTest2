@@ -22,10 +22,13 @@ public class ShareEmergencyVideoTest extends UiAutomatorTestCase {
 			//点击分享
 			Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/image3");
 			//点击紧急视频
-			Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/mEmergencyText");
-
-			Common.selectVideoFilter(runcase, in);
-			
+			boolean IPCStatus = false;
+			IPCStatus=Common.waitForList(runcase, in,"cn.com.mobnote.golukmobile:id/loading_bg",30);
+			if(IPCStatus){
+				Common.clickViewById(runcase, in, "cn.com.mobnote.golukmobile:id/mEmergencyText");
+				sleep(2000);
+				Common.selectVideoFilter(runcase, in);
+			}
 			Common.backToHome(runcase,in);
 			Common.passcase(runcase);
 			Common.startLog(runcase,"*****End to run "+runcase+" *****");

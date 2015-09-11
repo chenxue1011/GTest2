@@ -34,11 +34,11 @@ public class Common {
 	// public final static int[] idlelocation = { 958, 1360 };
 	// public final static int[] pause = { 136, 960 };
 	// 小米Note
-//	public final static int[][] al = { { 390, 425 }, { 815, 425 },
-//			{ 390, 666 }, { 815, 666 }, { 390, 920 }, { 815, 920 },
-//			{ 390, 1160 }, { 815, 1160 } };
-//	public final static int[] idlelocation = { 921, 1449 };
-//	public final static int[] pause = { 118, 949 };
+	// public final static int[][] al = { { 390, 425 }, { 815, 425 },
+	// { 390, 666 }, { 815, 666 }, { 390, 920 }, { 815, 920 },
+	// { 390, 1160 }, { 815, 1160 } };
+	// public final static int[] idlelocation = { 921, 1449 };
+	// public final static int[] pause = { 118, 949 };
 	// 三星
 	// public final static int[][] al = { { 403, 497 }, { 804, 497 }, { 403, 742
 	// }, { 804, 742 },
@@ -55,7 +55,7 @@ public class Common {
 
 	public final static String[] filterName = { "无", "清新淡雅", "黑白经典", "多彩夏日",
 			"复古怀旧", "缤纷梦幻", "柔和静谧", "古典胶片" };
-	public final static String[] typeName = { "#曝光台", "#事故大爆料", "#美丽风景", "#随手拍" };
+	public final static String[] typeName = { "#曝光台", "#事故爆料", "#美丽风景", "#随手拍" };
 
 	// Open the activity
 	public static void openActivity() {
@@ -67,10 +67,11 @@ public class Common {
 			e.printStackTrace();
 		}
 	}
-	public static int[] getAnyLocation(String runcase, UiDevice device){
-		int h=device.getDisplayHeight();
-		int w=device.getDisplayWidth();
-		int[] al={w/2,h/3};
+
+	public static int[] getAnyLocation(String runcase, UiDevice device) {
+		int h = device.getDisplayHeight();
+		int w = device.getDisplayWidth();
+		int[] al = { w / 2, h / 3 };
 		return al;
 	}
 
@@ -88,13 +89,6 @@ public class Common {
 	 */
 	public static void openActivity(String runcase, UiDevice device,
 			String resourceid) throws Exception {
-		// 点击启动App
-		// int x = idlelocation[0];
-		// int y = idlelocation[1];
-		// // 点击Goluk坐标
-		// device.click(x, y);
-		// waitTime(2);
-		// infoLog(runcase, TestInfo + "已经点击App的坐标");
 		Runtime.getRuntime()
 				.exec("am start -n cn.com.mobnote.golukmobile/cn.com.mobnote.golukmobile.GuideActivity");
 		waitTime(5);
@@ -118,18 +112,10 @@ public class Common {
 			if (findViewById2(device,
 					"cn.com.mobnote.golukmobile:id/loading_bg").exists()) {
 				infoLog(runcase, TestInfo + "Goluk正在加载 " + i + "s");
-				waitTime(1);
-				i++;
-			} else {
-				infoLog(runcase, TestInfo + "Goluk加载完成，可以工作");
-				break;
 			}
+			waitTime(1);
+			i++;
 		}
-		// waitTime(3);
-		// if (i == 30) {
-		// backToHome(runcase, device);
-		// throw new Exception(FailedTestInfo + "Goluk 打开失败, 请检查");
-		// }
 	}
 
 	/**
@@ -312,7 +298,7 @@ public class Common {
 		for (int i = 0; i < 10; i++) {
 			device.pressBack();
 		}
-		waitTime(5);
+		waitTime(2);
 		UiObject exitbtn = findViewByText2(device, "确认");
 		if (exitbtn.exists()) {
 			try {
@@ -336,6 +322,7 @@ public class Common {
 	 *            测试用例
 	 */
 	public static void failcase(String runcase) {
+		waitTime(1);
 		Log.d(TAG + runcase, TestResult + "The Test Case " + runcase
 				+ " Failed");
 		System.out.println("[" + TAG + runcase + "] " + TestResult
@@ -387,6 +374,7 @@ public class Common {
 
 	public static String checkFailReason2(String runcase, UiDevice device,
 			String currentTime, String eMessage) throws IOException {
+		createFolder(runcase);
 		String s = null;
 		Common.infoLog(runcase, "发生异常，正在捕获异常");
 		waitTime(30);
@@ -394,27 +382,13 @@ public class Common {
 		UiObject ANR = findViewByText2(device, "极路客 isn't responding.");
 		if (AppCrash.exists()) {
 			s = "App Crash happened";
-			takeBugReport(runcase, "CRASH", currentTime);
+			takeBugReport(device, runcase, "CRASH", currentTime);
 		} else if (ANR.exists()) {
 			s = "ANR happened";
-			takeBugReport(runcase, "ANR", currentTime);
+			takeBugReport(device, runcase, "ANR", currentTime);
 		} else {
-
+			takeBugReport(device, runcase, "Except", currentTime);
 			s = eMessage;
-		}
-		waitTime(10);
-		UiObject AppCrashBtn = Common.findViewByText2(device, "OK");
-		if (AppCrashBtn.exists()) {
-			try {
-				waitTime(5);
-				AppCrashBtn.clickAndWaitForNewWindow();
-				waitTime(20);
-				backToHome(runcase, device);
-				waitTime(10);
-				backToHome(runcase, device);
-			} catch (UiObjectNotFoundException e1) {
-				e1.printStackTrace();
-			}
 		}
 		return s;
 	}
@@ -439,6 +413,7 @@ public class Common {
 	 *            测试用例
 	 */
 	public static void passcase(String runcase) {
+		waitTime(1);
 		Log.d(TAG + runcase, TestResult + "The Test case " + runcase + " Pass");
 		System.out.println("[" + TAG + runcase + "] " + TestResult
 				+ "The Test case " + runcase + " Pass");
@@ -464,6 +439,8 @@ public class Common {
 	 *            开始/结束执行用例提示
 	 */
 	public static void startLog(String runcase, String logmsg) {
+		waitTime(1);
+		System.out.println("[" + TAG + runcase + "] " + logmsg);
 		Log.d(TAG + runcase, logmsg);
 	}
 
@@ -518,14 +495,28 @@ public class Common {
 	 */
 	public static void takeScreen(UiDevice devices, String runcase,
 			String currentTime) throws IOException {
-		createFolder(runcase);
+		// createFolder(runcase);
 		devices.takeScreenshot(new File("/sdcard/GolukTest/" + runcase + "/"
 				+ currentTime + ".png"), 0, 50);
 	}
 
 	// Take Bug Report
-	public static String takeBugReport(String runcase, String crashType,
-			String currentTime) throws IOException {
+	public static String takeBugReport(UiDevice device, String runcase,
+			String crashType, String currentTime) {
+		waitTime(10);
+		UiObject AppCrashBtn = Common.findViewByText2(device, "OK");
+		if (AppCrashBtn.exists()) {
+			try {
+				waitTime(5);
+				AppCrashBtn.clickAndWaitForNewWindow();
+				waitTime(20);
+				backToHome(runcase, device);
+				waitTime(10);
+				backToHome(runcase, device);
+			} catch (UiObjectNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
 		Common.infoLog(runcase, "Start to catch log");
 		try {
 			// Executes the command.
@@ -538,6 +529,7 @@ public class Common {
 					.exec("/system/bin/bugreport");
 			// Reads stdout.// NOTE: You can write to stdin of the command using
 			// process.getOutputStream().
+			waitTime(10);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
 			int read;
@@ -549,25 +541,52 @@ public class Common {
 				out.write(output.toString().getBytes("utf-8"));
 			}
 			// Waits for the command to finish.
-			process.waitFor();
+			try {
+				process.waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			reader.close();
 			out.close();
+			Process process2 = Runtime.getRuntime().exec(
+					"/system/bin/am force-stop cn.com.mobnote.golukmobile");
+			try {
+				process2.waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return logname;
 		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+			try {
+				Process process2 = Runtime.getRuntime().exec(
+						"/system/bin/am force-stop cn.com.mobnote.golukmobile");
+				try {
+					process2.waitFor();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			Common.infoLog(runcase, "No LOG");
+			return "fail";
 		}
 
 	}
-	
+
 	/**
 	 * 获取视频列表的视频
+	 * 
 	 * @param runcase
 	 * @param device
 	 * @return 返回视频的UiObject列表
 	 */
-	
+
 	public static List<UiObject> getObjectList(String runcase, UiDevice device) {
 		waitTime(2);
 		Common.infoLog(runcase, "进入获取list");
@@ -578,7 +597,7 @@ public class Common {
 		if (object.exists()) {
 			int nObject = object.getChildCount(new UiSelector()
 					.className("android.widget.RelativeLayout"));
-			infoLog(runcase, "找到控件: "+nObject);
+			infoLog(runcase, "找到控件: " + nObject);
 			UiObject o1, o2;
 			try {
 
@@ -593,6 +612,10 @@ public class Common {
 										.childSelector(
 												new UiSelector()
 														.resourceIdMatches("cn.com.mobnote.golukmobile:id/mVideoLayout1")));
+						if (o1.exists()) {
+							list.add(o1);
+							infoLog(runcase, "添加找到控件的索引为: " + i);
+						}
 						o2 = object
 								.getChild(new UiSelector()
 										.className(
@@ -601,16 +624,11 @@ public class Common {
 										.childSelector(
 												new UiSelector()
 														.resourceIdMatches("cn.com.mobnote.golukmobile:id/mVideoLayout2")));
-						if (o1.exists()) {
-							list.add(o1);
-							infoLog(runcase, "添加找到控件的索引为: "+i);
-						}
 						if (o2.exists()) {
 							list.add(o2);
-							System.out.println("添加找到控件的索引为: "+i);
+							System.out.println("添加找到控件的索引为: " + i);
 						}
-					}
-					else{
+					} else {
 						break;
 					}
 				}
@@ -627,6 +645,7 @@ public class Common {
 		}
 		return list;
 	}
+
 	/**
 	 * 下载视频
 	 * 
@@ -641,18 +660,18 @@ public class Common {
 	public static void downloadVideo(String runcase, UiDevice device,
 			String editbtnid) throws Exception {
 		// 点击 编辑 按钮
-		 clickViewById(runcase, device, editbtnid);
+		clickViewById(runcase, device, editbtnid);
 		// for (int n = 0; n < al.length; n++) {
 		List<UiObject> objectlist = getObjectList(runcase, device);
-		int llist=objectlist.size();
-		Common.infoLog(runcase, "视频个数为："+llist);
-		if (llist>0){
-			for(int i=0;i<llist;i++){
-				Common.infoLog(runcase, "第 "+i+" 个视频被选择");
+		int llist = objectlist.size();
+		Common.infoLog(runcase, "视频个数为：" + llist);
+		if (llist > 0) {
+			for (int i = 0; i < llist; i++) {
+				Common.infoLog(runcase, "第 " + i + " 个视频被选择");
 				objectlist.get(i).clickAndWaitForNewWindow();
 				waitTime(1);
 			}
-		}else{
+		} else {
 			Common.infoLog(runcase, "此处没有任何视频");
 		}
 		UiObject downloadbtn = findViewById(runcase, device,
@@ -682,17 +701,24 @@ public class Common {
 	 */
 	public static void playVideo(String runcase, UiDevice device,
 			String resourceid, int loadtime) throws Exception {
-		int al[]=getAnyLocation(runcase, device);
+		int al[] = getAnyLocation(runcase, device);
 		List<UiObject> objectlist = getObjectList(runcase, device);
-		int llist=objectlist.size();
-		Common.infoLog(runcase, "视频个数为："+llist);
+		int llist = objectlist.size();
+		Common.infoLog(runcase, "视频个数为：" + llist);
 		for (int n = 0; n < llist; n++) {
-			if(llist==0){
+			if (llist == 0) {
 				Common.infoLog(runcase, "此处列表没视频");
 				break;
 			}
 			infoLog(runcase, TestInfo + "第 " + (n + 1) + " 个视频位置被点击");
-			objectlist.get(n).clickAndWaitForNewWindow();
+			if (objectlist.get(n).exists()) {
+				try {
+					objectlist.get(n).clickAndWaitForNewWindow();
+				} catch (UiObjectNotFoundException e) {
+					infoLog(runcase, "视频点击失败");
+					continue;
+				}
+			}
 			waitTime(2);
 			UiObject btn = findViewById2(device,
 					"cn.com.mobnote.golukmobile:id/leftButton");
@@ -849,7 +875,7 @@ public class Common {
 				UiObject input = Common.findViewById(runcase, device,
 						"cn.com.mobnote.golukmobile:id/comment_input");
 				input.clickAndWaitForNewWindow();
-				input.setText("This is a test string:)_//@");
+				input.setText("Cool");
 				waitTime(3);
 				Common.clickViewById(runcase, device,
 						"cn.com.mobnote.golukmobile:id/comment_send");
@@ -915,7 +941,7 @@ public class Common {
 					waitTime(4);
 					input.clickAndWaitForNewWindow();
 					waitTime(4);
-					input.setText("This is a test string:)_//@");
+					input.setText("Cool");
 					waitTime(3);
 					Common.clickViewById(runcase, device,
 							"cn.com.mobnote.golukmobile:id/comment_send");
@@ -963,17 +989,20 @@ public class Common {
 						Common.scrollUp(runcase, devices,
 								"android.widget.ListView", 2);
 						waitTime(2);
-						for(int i=0;i<5;i++){
-							UiObject playbtn=Common.findViewById2(devices, "cn.com.mobnote.golukmobile:id/mPlayBigBtn");
-							if(playbtn.exists()){
+						for (int i = 0; i < 5; i++) {
+							UiObject playbtn = Common
+									.findViewById2(devices,
+											"cn.com.mobnote.golukmobile:id/mPlayBigBtn");
+							if (playbtn.exists()) {
 								playbtn.clickAndWaitForNewWindow();
 								Common.infoLog(runcase, "播放10秒");
 								waitTime(10);
 								break;
-							}else{
-								scrollDown(runcase, devices, "android.widget.ListView", 2);
+							} else {
+								scrollDown(runcase, devices,
+										"android.widget.ListView", 2);
 							}
-							
+
 						}
 						if (Common.findViewById2(devices, "android:id/button1")
 								.exists()) {
@@ -1046,7 +1075,7 @@ public class Common {
 							"cn.com.mobnote.golukmobile:id/comment_input");
 					input.clickAndWaitForNewWindow();
 					waitTime(5);
-					input.setText("This is a test//@<>");
+					input.setText("Cool");
 					waitTime(3);
 					clickViewById(runcase, devices,
 							"cn.com.mobnote.golukmobile:id/comment_send");
@@ -1127,8 +1156,8 @@ public class Common {
 	public static void selectVideoFilter(String runcase, UiDevice devices)
 			throws Exception {
 		List<UiObject> objectlist = getObjectList(runcase, devices);
-		int llist=objectlist.size();
-		Common.infoLog(runcase, "视频个数为："+llist);
+		int llist = objectlist.size();
+		Common.infoLog(runcase, "视频个数为：" + llist);
 		for (int n = 0; n < llist; n++) {
 			infoLog(runcase, TestInfo + "第 " + (n + 1) + " 个视频被点击");
 			objectlist.get(n).clickAndWaitForNewWindow();
@@ -1272,12 +1301,12 @@ public class Common {
 			String className, int scrollTime) throws UiObjectNotFoundException {
 		UiScrollable object = new UiScrollable(
 				new UiSelector().className(className));
-		if(object.exists()){
+		if (object.exists()) {
 			for (int i = 0; i < scrollTime; i++) {
 				object.scrollForward();
 				infoLog(runcase, TestInfo + "向上翻动");
 			}
-		}else{
+		} else {
 			infoLog(runcase, "列表不存在");
 		}
 
@@ -1314,7 +1343,7 @@ public class Common {
 			String resouceId, int n) throws Exception {
 		int waitwondfullisttime = 1;
 		while (waitwondfullisttime < n) {
-			if (Common.findViewById2(device, resouceId).exists()) {
+			if (findViewById2(device, resouceId).exists()) {
 				infoLog(runcase, "正在加载视频列表 " + waitwondfullisttime + "秒");
 				waitTime(1);
 				waitwondfullisttime = waitwondfullisttime + 1;
@@ -1332,8 +1361,8 @@ public class Common {
 	}
 
 	public static void clickByLocation(String runcase, UiDevice device) {
-		int[] al=getAnyLocation(runcase, device);
-		device.click(al[0]/2, al[1]/2);
-		//infoLog(runcase, "随机点击屏幕");
+		int[] al = getAnyLocation(runcase, device);
+		device.click(al[0] / 2, al[1] / 2);
+		// infoLog(runcase, "随机点击屏幕");
 	}
 }

@@ -64,8 +64,6 @@ public class PlayFavoriteVideoTest extends UiAutomatorTestCase {
 			String s=Common.checkFailReason2(runcase,in,str, e.getMessage());
 			Common.infoLog(runcase,"截图存储在 in /sdcard/GolukTest/"+runcase+"/"+str+".png");
 			Common.takeScreen(in, runcase,str);
-//			String s=null;
-//			s=Common.checkFailReason(runcase,in, e.getMessage());
 			Common.backToHome(runcase,in);
 			Common.errorLog(runcase,s);
 			Common.failcase(runcase);

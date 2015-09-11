@@ -28,7 +28,7 @@ public class PreviewTest extends UiAutomatorTestCase {
 			sleep(2000);
 			int i=1;
 			UiObject waitingnote=Common.findViewById2(in, "cn.com.mobnote.golukmobile:id/mLoading");
-			while(i<16){
+			while(i<60){
 				if(waitingnote.exists()){
 					sleep(1000);
 					i++;
@@ -41,7 +41,7 @@ public class PreviewTest extends UiAutomatorTestCase {
 				}	
 			}
 			if(i==16){
-				throw new Exception("Loading more than 15s");
+				throw new Exception("Loading more than 60s");
 			}
 			Common.backToHome(runcase,in);
 			Common.passcase(runcase);

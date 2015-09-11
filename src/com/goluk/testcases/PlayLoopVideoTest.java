@@ -50,7 +50,7 @@ public class PlayLoopVideoTest extends UiAutomatorTestCase {
 				if(Common.waitForList(runcase, in,"cn.com.mobnote.golukmobile:id/loading_bg",30)){
 					for(int nPlayCount=1;nPlayCount<3;nPlayCount++){
 						Common.infoLog(runcase,"第 "+nPlayCount+" 页");
-						Common.playVideo(runcase,in,"cn.com.mobnote.golukmobile:id/videoview",50);
+						Common.playVideo(runcase,in,"cn.com.mobnote.golukmobile:id/mSurfaceView",50);
 						Common.scrollUp(runcase, in, "android.widget.ListView", 2);
 					}
 				}				
